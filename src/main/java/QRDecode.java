@@ -4,15 +4,18 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import com.google.zxing.BinaryBitmap;
-import com.google.zxing.MultiFormatReader;
+import com.google.zxing.ChecksumException;
+import com.google.zxing.FormatException;
 import com.google.zxing.NotFoundException;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
+import com.google.zxing.qrcode.QRCodeReader;
 
 public class QRDecode {
     private static String decode(File qrCodeImage)
-            throws IOException, NotFoundException {
-        return new MultiFormatReader()
+            throws IOException, NotFoundException, ChecksumException,
+                   FormatException {
+        return new QRCodeReader()
             .decode(
                 new BinaryBitmap(
                     new HybridBinarizer(
@@ -37,7 +40,13 @@ public class QRDecode {
             System.err.println("Could not read file: " + e.getMessage());
         }
         catch (NotFoundException e) {
-            System.err.println("Could not decode QR: " + e.getMessage());
+            System.err.println("Not found: " + e.getMessage());
+        }
+        catch (ChecksumException e) {
+            System.err.println("Error correction failed: " + e.getMessage());
+        }
+        catch (FormatException e) {
+            System.err.println("Decoding failed: " + e.getMessage());
         }
         catch (Exception e) {
             System.err.println("Unknown Error: " + e.getMessage());
