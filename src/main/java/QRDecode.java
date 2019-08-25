@@ -25,7 +25,7 @@ public class QRDecode {
             = new BufferedImageLuminanceSource(ImageIO.read(qrCodeImage));
 
         Map<DecodeHintType, Boolean> hints
-            = new EnumMap<DecodeHintType, Boolean> (DecodeHintType.class);
+            = new EnumMap<DecodeHintType, Boolean>(DecodeHintType.class);
         hints.put(DecodeHintType.TRY_HARDER, true);
 
         String decoded = "";
